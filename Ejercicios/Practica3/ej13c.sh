@@ -3,7 +3,16 @@ if [ $# -ne 1 ]
 then
 	echo "Error: debe introducir un parametro"
 else
-	test -e $1  && echo "La ruta $1 existe"
-	test -d $1 && echo "La ruta $1 es un directorio" $-o mkdir $1
-	test -f $1 && echo "La ruta $1 es un fichero" $-o touch $1
+	if [ -e $1 ]; then
+	
+		if [ -d $1 ]; then
+			echo "La ruta $1 es un directorio"
+		elif [ -f $1 ]; then
+			echo "La ruta $1 es un fichero"
+		fi
+	else
+		echo "La ruta $1 no existe. Creando Direcotrio..."
+		mkdir $1
+		echo "Directorio $1 creado"
+	fi
 fi
