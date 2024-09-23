@@ -5,7 +5,7 @@
 # “-a CADENA”: renombra el fichero concatenando CADENA al final del nombre del archivo
 # “-b CADENA”: renombra el fichero concantenado CADENA al principio del nombre del archivo
 
-if [ $# -ne 3] 
+if [ $# -ne 3 ] 
 then
     echo "ERROR: Debe introducir 3 parametros"
     echo "Uso: $0 [ruta] [-a|-b] [CADENA]"
