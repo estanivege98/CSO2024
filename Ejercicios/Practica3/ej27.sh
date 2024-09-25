@@ -16,10 +16,35 @@ function inicializar() {
 }
 function agregar_elem(){
     echo "Introduzca elemento a añadir"
-    
+    read elem
+    array+=($elem)
 }
-
+function eliminar_elem(){
+    echo "Introducir elemento a eliminar"
+    read elem
+    if [ $elem -lt ${#array[@]} ]; then
+        unset array[elem]
+    else
+        echo "No existe elemento en el vector"
+    fi
+}
+function longitud(){
+    echo "Longitud del vector: ${#array[@]}"
+}
+function imprimir(){
+    echo "Elementos del vector: ${array[@]}"
+}
+function inicializarConValores(){
+    echo "Introduzca longitud del vector"
+    read long
+    echo "Introduzca valor a asignar"
+    read valor
+    for ((i=0; i<long; i++)); do
+        array+=($valor)
+    done
+}
 # Menu de opciones
+while true; do
 echo "MENU DE OPCIONES: "
 echo "1. Inicializar"
 echo "2. Agregar Elemento <parametro1>"
@@ -29,21 +54,23 @@ echo "5. Imprimir"
 echo "6. Inicializar con Valores <parametro1> <parametro2>"
 echo "0. Salir"
 
-case $opcion in
-    1) inicializar
-    ;;
-    2) agregar_elem
-    ;;
-    3) eliminar_elem
-    ;;
-    4) longitud
-    ;;
-    5) imprimir
-    ;;
-    6) inicializarConValores
-    ;;
-    0) exit 0
-    ;;
-    *) echo "Opcion Invalida"
-    ;;
-esac
+    read -p "Introduzca una opcion: " opcion
+    case $opcion in
+        1) inicializar
+        ;;
+        2) agregar_elem
+        ;;
+        3) eliminar_elem
+        ;;
+        4) longitud
+        ;;
+        5) imprimir
+        ;;
+        6) inicializarConValores
+        ;;
+        0) exit 0
+        ;;
+        *) echo "Opcion Invalida"
+        ;;
+    esac
+done
