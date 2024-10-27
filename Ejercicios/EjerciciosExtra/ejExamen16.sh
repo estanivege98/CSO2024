@@ -1,38 +1,38 @@
 #!/bin/bash
 #Ejercicio 16 del parcial
 
-nomUsers=$(cat /etc/passwd | cut -d : -f1)
+nomUsers=(`cat /etc/passwd | cut -d':' -f1`)
 
 existe(){
 	for usu in ${nomUsers[@]}; do
-		if [[ "$1" == "$usu" ]]; then
+		if [ "$1" == "$usu" ]; then
 			return 0
-		else
-			return 1
 		fi
 	done
+	return 1
 }
 
 eliminar_usuario(){
-	for usu in ${numUsers[@]}; do
+	indice=0
+	for usu in ${nomUsers[@]}; do
 		if [[ "$1" == "$usu" ]]; then
-			$((userdel $1))
+			unset nomUsers[$usu]
 			return 0
-		else
-			return 2
 		fi
+		let indice++
 	done
+	return 2
 }
 
 usuarios_con_patron(){
 	local cant=0
 	for usu in ${nomUsers[@]}; do
-		if [[ $(cat ${nomUsers[$usu]} | grep "$1" | wc -l) -gt 0 ]]; then
-			echo "${nomUsers[$usu]}"
-			$cant=(expr cant+1)
+		if [[ "$usu" =~ $1 ]]; then
+			echo "$usu"
+			cant=$(($cant+1))
 		fi
 	done
-	if [[ $cant -gt 1 ]]; then
+	if [[ $cant -gt 0 ]]; then
 		return 0
 	else
 		return 102
@@ -40,9 +40,8 @@ usuarios_con_patron(){
 }
 
 cantidad(){
-	cant=${#nomUsers[@]}
-	if [[ $cant -gt 1 ]]; then
-		echo "La cantidad de usuarios es $cant"
+	if [[ ${#nomUsers[@]} -gt 0 ]]; then
+		echo "La cantidad de usuarios es >>> ${#nomUsers[*]}"
 		return 0
 	else
 		return 95
@@ -52,8 +51,8 @@ cantidad(){
 usuarios(){
 	local cant=0
 	for i in ${nomUsers[@]}; do
-		echo "${nomUsers[$i]}"
-		$cant=(expr cant+1)
+		echo "$i"
+		cant=$(($cant+1))
 	done
 	if [[ $cant -eq 0 ]]; then
 		return 95
@@ -102,7 +101,7 @@ while true; do
 		;;
 		4) cantidad
 			if [[ $? -eq 0 ]]; then
-				echo "Cantidad de usuarios: "
+				echo "Cantidad de usuarios: ${#nomUsers[@]}"
 			else
 				echo "No se encontraron usuarios"
 			fi
@@ -119,4 +118,6 @@ while true; do
 		*) echo "Opción inválida"
 		;;
 	esac
-
+	echo ""
+done
+exit 0
