@@ -50,23 +50,31 @@ eliminar(){
         arreglo=()
         return 0
     else
-        for i in "${!arreglo[@]}"; do
-            if [[ "${arreglo[$i]}" == "$1" ]]; then
-                unset arreglo[$i]
+        cant=0
+        for i in "${arreglo[@]}"; do
+            if [[ $i -eq $1 ]]; then
+                unset arreglo[$cant]
+                arreglo=("${arreglo[@]}")
                 return 0
             fi
+            ((cant++))
         done
         echo "Elemento no encontrado"
     fi
 }
-
+imprimir(){
+    for i in ${arreglo[@]}; do
+        echo "$i"
+    done
+}
 # Menu de opciones
 while true; do
     echo "1. Insertar elemento"
     echo "2. Rellenar arreglo"
     echo "3. Seleccionar elemento"
     echo "4. Eliminar elemento"
-    echo "5. Salir"
+    echo "5. Mostrar arreglo"
+    echo "6. Salir"
     read -p "Ingrese una opcion: " opcion
     case $opcion in
         1)
@@ -86,6 +94,9 @@ while true; do
             eliminar $elemento
             ;;
         5)
+            imprimir
+            ;;
+        6)
             break
             ;;
         *)

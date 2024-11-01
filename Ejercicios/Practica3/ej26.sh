@@ -15,23 +15,25 @@ fi
 # Contadores
 cant_inexistentes=0
 
+params=("$@")
 # Iterar por todos los parámetros recibidos
-for (( i = 1; i <= $#; i++ )); do
-    param=${!i}
-    # Para parametros impares
-    if [ $((i % 2)) -ne 0 ]; then
-        # Verifico si es un direc.trio o archivo
-        if [ -d "$param" ]; then
-            echo "El parametro $1 es un directorio"
-        elif [ -f "$param" ]; then
-            echo "El parametro $1 es un archivo"
+for ((i=0; i < ${#params[@]}; i++)); do
+    if (( i % 2 == 1)); then
+        # Verificar si el archivo o directorio existe
+        if [ -e ${params[$i]} ]; then
+            # Verificar si es un archivo
+            if [ -f ${params[$i]} ]; then
+                echo "El archivo $i existe"
+            # Verificar si es un directorio
+            elif [ -d ${params[$i]} ]; then
+                echo "El directorio $i existe"
+            fi
         else
-            echo "El parametro $1 no existe"
+            echo "El archivo o directorio $i no existe"
             ((cant_inexistentes++))
         fi
     fi
 done
-
 # Informo la cantidad de archivos inexistentes
 echo "Cantidad de archivos inexistentes: $cant_inexistentes"
 exit 0

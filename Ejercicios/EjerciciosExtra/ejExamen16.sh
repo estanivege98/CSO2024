@@ -49,12 +49,12 @@ cantidad(){
 }
 
 usuarios(){
-	local cant=0
-	for i in ${nomUsers[@]}; do
-		echo "$i"
-		cant=$(($cant+1))
-	done
-	if [[ $cant -eq 0 ]]; then
+	if [ ${#nomUsers[@]} -gt 0 ]; then
+		for usu in ${nomUsers[@]}; do
+			echo "$usu"
+		done
+		return 0
+	else
 		return 95
 	fi
 	return 0

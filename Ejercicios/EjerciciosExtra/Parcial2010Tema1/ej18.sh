@@ -10,11 +10,14 @@ agregar_elem(){
 eliminar_elem(){
     local elemento=$1
     local elimino=false
-    for i in "${!arreglo[@]}"; do
-        if [[ ${arreglo[$i]} == $elemento ]]; then
-            unset arreglo[$i]
+    local indice=0
+    for elemArray in "${arreglo[@]}"; do
+        if [[ $elemArray == $elemento ]]; then
+            unset arreglo[$indice]
+            arreglo=("${arreglo[@]}")
             elimino=true
         fi
+        ((indice++))
     done
     if [[ $elimino == false ]]; then
         echo "El elemento no existe en el arreglo"
