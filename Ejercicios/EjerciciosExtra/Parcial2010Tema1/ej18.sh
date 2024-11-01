@@ -5,7 +5,7 @@ inicializar(){
 }
 
 agregar_elem(){
-    arreglo+=($1)
+    arreglo=("${arreglo[@]}" $1)
 }
 eliminar_elem(){
     local elemento=$1
